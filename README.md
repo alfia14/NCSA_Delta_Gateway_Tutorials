@@ -2,6 +2,8 @@
 
 Tutorials and Jupyter notebook workflows for running **Lattice Microbes** and **whole-cell** simulations on the **NCSA Delta Science Gateway** (GPU-backed Jupyter, shared workspace on NFS).
 
+# Tutorial with Videos: [Link](https://minimalcell4d.web.illinois.edu/home/tutorials/)
+
 ## Contents
 
 | Folder | Topic |
