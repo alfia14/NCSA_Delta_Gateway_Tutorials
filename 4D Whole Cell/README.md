@@ -16,6 +16,7 @@
 ## Steps
 
 **1. Source Code:** Make sure you have the the repositories (https://github.com/Luthey-Schulten-Lab/Minimal_Cell_4DWCM) and https://github.com/alfia14/NCSA_Delta_Gateway_Tutorials in your workspace 
+
 **2. Tutorial:** Open the notebook in workspace and start running the tutorial.
 ## References
 
