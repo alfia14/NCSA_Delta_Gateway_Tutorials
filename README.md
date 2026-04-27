@@ -91,7 +91,7 @@ The leading `!` runs the command in a shell. After it finishes, refresh the Jupy
 `File` → `New` → `Terminal`, then:
 
 ```bash
-git clone https://github.com/alfia14/NCSA_Delta_Gateway_Tutorials.git
+!git clone https://github.com/alfia14/NCSA_Delta_Gateway_Tutorials.git
 ```
 
 Then go back to the file browser and open notebooks from there.
