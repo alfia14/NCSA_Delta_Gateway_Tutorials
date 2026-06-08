@@ -43,10 +43,10 @@ You will be prompted for your **NCSA password** and **two-factor authentication 
 Once the SSH tunnel is up, open this URL in any browser on your laptop:
 
 ```
-https://localhost:8000/hub/login
+https://localhost:8000/hub/login](https://dt-svc-bbkw01.delta.ncsa.illinois.edu:8000/hub/org/
 ```
 
-You should see the **JupyterHub login page** for the QCB Delta Gateway. Sign in with your Delta credentials and you’ll land in the gateway’s notebook interface.
+Click on the QCB Gateway tab. You should see the **JupyterHub login page** for the QCB Delta Gateway.Click on CI Logon and sign in with your Delta credentials and you’ll land in the gateway’s notebook interface.
 
 > [!NOTE]
 > Your browser will likely warn about a **self-signed certificate** the first time (the cert is issued to the internal Delta service node, not `localhost`). It is safe to proceed — the traffic is end-to-end encrypted inside your SSH tunnel.
