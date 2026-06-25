@@ -14,7 +14,19 @@
 | **How you run** | Notebook cells | `sbatch` batch job |
 | **Tutorial file** | [`Tutorial_4dwcm_gateway.ipynb`](Tutorial_4dwcm_gateway.ipynb) | [`4DWCM_ssh/`](4DWCM_ssh/) bash scripts |
 
-Pick **one** path below. 
+Pick **one** path below.
+
+---
+
+## Shared files on Delta (read-only — copy before you run)
+
+Simulation code and scripts live on the shared `bgvl` project at `/projects/bgvl/containers/4DWCM_Gateway/`. **Copy** into your own folder — nothing you run writes back here. Access requires the **bgvl** allocation (`delta_bgvl` group).
+
+| Path | What it is |
+|------|------------|
+| `.../Optimize_4DWCM_Minimal_Cell/` | Simulation **source** — copy into your workspace or `4dwcm_run/` |
+| `.../4DWCM_ssh/` | **Bash scripts** for SSH/Slurm — copy into `4dwcm_run/` |
+| `.../4dcell_delta_btree2.sif` | **Container image** — used by Slurm jobs only (not copied) |
 
 ---
 

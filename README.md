@@ -139,13 +139,26 @@ NCSA_Delta_Gateway_Tutorials/4D Whole Cell/
 
 | What | |
 |------|---|
-| **Entry notebook** | [`Tutorial_4dwcm_gateway.ipynb`](4D%20Whole%20Cell/Tutorial_4dwcm_gateway.ipynb) — paths, environment, logs, `nohup`/`tail`, and job control |
-| **Model code (not in this repo)** | Clone [Minimal_Cell_4DWCM](https://github.com/Luthey-Schulten-Lab/Minimal_Cell_4DWCM) separately. On the **Delta gateway**, the tutorial assumes a layout like `/home/user/workspace/Minimal_Cell_4DWCM` and an **LM 2.5** kernel with `/Software` tools. |
+| **Entry notebook** | [`Tutorial_4dwcm_gateway.ipynb`](4D%20Whole%20Cell/Tutorial_4dwcm_gateway.ipynb) — JupyterHub short test; copies code from the shared Delta bundle |
+| **SSH / Slurm scripts** | [`4D Whole Cell/4DWCM_ssh/`](4D%20Whole%20Cell/4DWCM_ssh/) — production 7200 s runs via `sbatch` |
+| **Full walkthrough** | [`4D Whole Cell/README.md`](4D%20Whole%20Cell/README.md) — JupyterHub vs SSH, copy steps, outputs, restart |
 
-**Upstream code and papers**
+**Simulation code (not in this GitHub repo)** — on Delta it is provided on the shared `bgvl` project. **Copy** into your own folder before running (do not write to the shared path):
 
-- **Code:** [Luthey-Schulten-Lab/Minimal_Cell_4DWCM](https://github.com/Luthey-Schulten-Lab/Minimal_Cell_4DWCM)
+| Path on Delta | Role |
+|---------------|------|
+| `/projects/bgvl/containers/4DWCM_Gateway/Optimize_4DWCM_Minimal_Cell/` | Optimized 4DWCM **source** |
+| `/projects/bgvl/containers/4DWCM_Gateway/4DWCM_ssh/` | **Bash scripts** for SSH/Slurm |
+| `/projects/bgvl/containers/4DWCM_Gateway/4dcell_delta_btree2.sif` | **Container image** (Slurm jobs only) |
+
+- **JupyterHub:** notebook section 1 copies source into `/home/user/workspace/Optimize_4DWCM_Minimal_Cell/`.
+- **SSH:** copy into `/projects/bgvl/$USER/4dwcm_run/` (see [`4D Whole Cell/README.md`](4D%20Whole%20Cell/README.md)).
+
+**Upstream references**
+
+
+- **Paper baseline:** [Minimal_Cell_4DWCM](https://github.com/Luthey-Schulten-Lab/Minimal_Cell_4DWCM)
 - **Overview site:** [4D Minimal Cell](https://minimalcell4d.web.illinois.edu/home/)
-- **Primary paper (example):** [Thornburg *et al.*, *Cell* 2026 — bringing the minimal cell to life in 4D](https://www.cell.com/cell/fulltext/S0092-8674(26)00174-1)
+- **Primary paper:** [Thornburg *et al.*, *Cell* 2026](https://www.cell.com/cell/fulltext/S0092-8674(26)00174-1)
 
-**Typical gateway needs:** Jupyter with a **Lattice Microbes**–compatible kernel (e.g. **LM 2.5**), access to **GPUs** (simulation is heavy), and a persistent clone of the model under the gateway workspace so `Data/` and `logs/` survive across sessions.
+**Typical needs:** **`4DCell Optimized`** GPU environment, **2 GPUs**, kernel **LM 2.5** (JupyterHub) or container `lm_2.5_dev` (Slurm). Request **48 hours** for a full 7200 s cell-cycle run (~25 h wall on 2× A100).
