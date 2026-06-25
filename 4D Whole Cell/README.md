@@ -1,76 +1,12 @@
-# 4D Whole Cell (Delta Gateway) — Optimized stack
+# 4D Whole Cell (Delta) — Optimized stack
 
 **4D Whole-Cell Model (4DWCM)** simulates the genetically minimal cell **JCVI-syn3A** in 3D over time — coupling **RDME**, **CME**, **ODE** metabolism, and **Brownian-dynamics** DNA (btree_chromo 2.0 + Kokkos LAMMPS on GPU).
 
+Run via **SSH + Slurm** on Delta: copy source and launch scripts into your project folder, then `sbatch`.
 
 ---
 
-## Which workflow should I use?
-
-| | **JupyterHub** (Section 1) | **SSH + Slurm** (Section 2) |
-|---|---------------------------|----------------------------|
-| **Best for** | Short term run | Full **7200 s** cell-cycle production run |
-| **Biological time** | 10 s test (users can change)  | 7200 s (~25 h wall) |
-| **How you run** | Notebook cells | `sbatch` batch job |
-| **Tutorial file** | [`Tutorial_4dwcm_gateway.ipynb`](Tutorial_4dwcm_gateway.ipynb) | [`4DWCM_ssh/`](4DWCM_ssh/) bash scripts |
-
-Pick **one** path below.
-
----
-
-## 1. JupyterHub — short interactive test
-
-### 1.1 Connect
-
-```bash
-ssh -L 8000:dt-svc-bbkw01.hsn.cm.delta.internal.ncsa.edu:8000 YOUR_NCSA_USERNAME@login.delta.ncsa.illinois.edu
-```
-
-Open https://dt-svc-bbkw01.delta.ncsa.illinois.edu:8000/hub/org/ → **QCB Gateway** → **CI Logon**.
-
-> Gateway access: contact Alfia Parvez at alfiap@illinois.edu if not approved.
-
-### 1.2 Allocate resources
-
-| Setting | Value |
-| --- | --- |
-| **Allocation** | **A100 GPU - up to 8 (bgvl-delta-gpu)** — **Batch** |
-| **CPUs** | **8** |
-| **GPU Environment** | **`4DCell Optimized`** |
-| **GPUs** | **2** |
-| **Memory** | **64 GB**+ |
-| **Time limit** | **48 hours** |
-| **Kernel** | **LM 2.5 (Python 3.7)** |
-
-### 1.3 Run the notebook
-
-```bash
-cd /home/user/workspace
-git clone https://github.com/alfia14/NCSA_Delta_Gateway_Tutorials.git
-```
-
-Open `NCSA_Delta_Gateway_Tutorials/4D Whole Cell/Tutorial_4dwcm_gateway.ipynb` and run all cells.
-
-- **Section 1** copies source from `/projects/bgvl/containers/4DWCM_Gateway/Optimize_4DWCM_Minimal_Cell` into your workspace.
-- **Section 3** starts the 10 s test simulation.
-- **Section 4** shows how to tail the log and inspect outputs.
-- **Section 5** (optional) restarts if the run crashed or checkpointed early.
-
-### 1.4 Where JupyterHub outputs go
-
-| What | Path |
-|------|------|
-| Your code copy | `/home/user/workspace/Optimize_4DWCM_Minimal_Cell/` |
-| Science data | `.../Data/4dwcm_10s/` |
-| Run log | `.../logs/run_4dwcm_10s.log` |
-
-Key files in `Data/4dwcm_10s/`: `counts_and_fluxes.csv`, `DNA/`, `restart_files/`, `*.lm`.
-
----
-
-## 2. SSH + Slurm — full production run
-
-### 2.1 Log in
+## 1. Log in
 
 ```bash
 ssh YOUR_NCSA_USERNAME@login.delta.ncsa.illinois.edu
@@ -84,7 +20,9 @@ cd /projects/bgvl/$USER
 
 On Delta, `$USER` is your NCSA username (e.g. login as `jdoe` → `/projects/bgvl/jdoe`).
 
-### 2.2 Copy source and scripts into your folder
+---
+
+## 2. Copy source and scripts into your folder
 
 ```bash
 mkdir -p 4dwcm_run/logs
@@ -114,7 +52,9 @@ Your folder after copying:
     └── Data/                  ← created when the job runs
 ```
 
-### 2.3 Submit a new run
+---
+
+## 3. Submit a new run
 
 ```bash
 cd /projects/bgvl/$USER/4dwcm_run
@@ -139,14 +79,18 @@ sbatch launch_4dwcm_7200.sh 7200 13 my_run_name 47.5
 
 The job uses the shared container image at `/projects/bgvl/containers/4DWCM_Gateway/4dcell_delta_btree2.sif` (not copied).
 
-### 2.4 Monitor
+---
+
+## 4. Monitor
 
 ```bash
 squeue -u $USER
 tail -f /projects/bgvl/$USER/4dwcm_run/logs/4dwcm_7200-<JOBID>.out
 ```
 
-### 2.5 Where SSH outputs go
+---
+
+## 5. Where outputs go
 
 All outputs stay under `/projects/bgvl/$USER/4dwcm_run/`:
 
@@ -166,7 +110,9 @@ ls /projects/bgvl/$USER/4dwcm_run/Optimize_4DWCM_Minimal_Cell/Data/4dwcm_7200/
 | `restart_files/` | Checkpoints for resume |
 | `*.lm` | RDME lattice trajectories |
 
-### 2.6 Resume or extend a run (optional)
+---
+
+## 6. Resume or extend a run (optional)
 
 Use `launch_4dwcm_restart.sh` when you need **more biological time** or must **recover after a crash or checkpoint**.
 
@@ -192,12 +138,11 @@ Science data appends to the same `Data/4dwcm_7200/` folder. Slurm log: `logs/4dw
 
 ## Files in this folder
 
-| File | Used by |
+| File | Purpose |
 |------|---------|
-| [`Tutorial_4dwcm_gateway.ipynb`](Tutorial_4dwcm_gateway.ipynb) | JupyterHub (Section 1) |
-| [`4DWCM_ssh/launch_4dwcm_7200.sh`](4DWCM_ssh/launch_4dwcm_7200.sh) | SSH — new 7200 s run |
-| [`4DWCM_ssh/launch_4dwcm_restart.sh`](4DWCM_ssh/launch_4dwcm_restart.sh) | SSH — resume / extend |
-| [`4DWCM_ssh/copy_4dwcm_bundle.sh`](4DWCM_ssh/copy_4dwcm_bundle.sh) | SSH — optional copy helper |
+| [`4DWCM_ssh/launch_4dwcm_7200.sh`](4DWCM_ssh/launch_4dwcm_7200.sh) | New 7200 s run |
+| [`4DWCM_ssh/launch_4dwcm_restart.sh`](4DWCM_ssh/launch_4dwcm_restart.sh) | Resume / extend |
+| [`4DWCM_ssh/copy_4dwcm_bundle.sh`](4DWCM_ssh/copy_4dwcm_bundle.sh) | Optional copy helper |
 
 ---
 
@@ -206,4 +151,4 @@ Science data appends to the same `Data/4dwcm_7200/` folder. Slurm log: `logs/4dw
 - [4D Minimal Cell (site)](https://minimalcell4d.web.illinois.edu/home/)
 - [Thornburg *et al.*, *Cell* 2026](https://www.cell.com/cell/fulltext/S0092-8674(26)00174-1)
 - [4DWCM_ssh README](4DWCM_ssh/README.md)
-- [Top-level Gateway README](../README.md)
+- [Top-level tutorials README](../README.md)
