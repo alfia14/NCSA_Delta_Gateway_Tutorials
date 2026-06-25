@@ -21,11 +21,12 @@ This tutorial uses the **optimized production fork** (~3× faster than the paper
 ## Steps
 
 1. **Gateway session:** start Jupyter with **4DCell Optimized**, **2 GPUs**, kernel **LM 2.5 (Python 3.7)**.
-2. **Clone repos** into `/home/user/workspace/`:
+2. **Copy simulation code** into `/home/user/workspace/` (no GitHub access needed on `bgvl`):
    ```bash
-   git clone https://github.com/luthey-schulten-chemistry/Optimize_4DWCM_Minimal_Cell.git
+   cp -a /projects/bgvl/containers/Optimize_4DWCM_Minimal_Cell /home/user/workspace/
    git clone https://github.com/alfia14/NCSA_Delta_Gateway_Tutorials.git
    ```
+   Shared bundle is ~13 MB (no `Data/`, no run outputs). Use **`cp -a`**, not a symlink — simulations write `Data/` inside the repo.
 3. Open **`NCSA_Delta_Gateway_Tutorials/4D Whole Cell/Tutorial_4dwcm_gateway.ipynb`** and run all cells.
 
 ## Performance
